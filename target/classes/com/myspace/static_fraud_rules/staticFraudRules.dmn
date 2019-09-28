@@ -1,0 +1,463 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dmn:definitions xmlns:dmn="http://www.omg.org/spec/DMN/20180521/MODEL/" xmlns="https://kiegroup.org/dmn/_2E7CC4A2-92C4-44F8-B424-A29590D2AD0B" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:kie="http://www.drools.org/kie/dmn/1.2" xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/" xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" id="_61FFB80C-9646-47B1-A858-81E3EAF6B0D0" name="staticFraudRules" expressionLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" namespace="https://kiegroup.org/dmn/_2E7CC4A2-92C4-44F8-B424-A29590D2AD0B">
+  <dmn:extensionElements/>
+  <dmn:decision id="_E5B9A995-8B24-4EA4-9562-1D1EAB7E2819" name="Blocked Transactions">
+    <dmn:variable id="_D988BF48-F289-456B-B0A4-FCE052CC13DB" name="Blocked Transactions" typeRef="string"/>
+    <dmn:informationRequirement id="_7F6DF6F0-AE9D-4F13-A839-4652F27A1975">
+      <dmn:requiredInput href="#_E9503125-EBB9-43B6-9E44-A03E1B0D3FE3"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_7FD93C6B-F5AD-45D7-9513-44ADC76A8D0F">
+      <dmn:requiredInput href="#_F3B1BEF3-724F-4483-8016-061226E6B23D"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_ECF40521-F487-4885-B5AD-64C29BCE661B">
+      <dmn:requiredDecision href="#_46703AA6-2D0A-424B-BA08-6C7E999A3A74"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="_291689AE-7917-4535-A1E3-23DC91216A5B" hitPolicy="UNIQUE" preferredOrientation="Rule-as-Row">
+      <dmn:input id="_8490E827-EE19-464F-B5B7-FC1AC188050B">
+        <dmn:inputExpression id="_40D0362E-0A35-414F-9A84-1179949015CC" typeRef="number">
+          <dmn:text>Transaction Amount</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_541DE2D9-9313-4432-9C56-9251BF9C8FB7">
+        <dmn:inputExpression id="_8ACB3FBF-BFE7-4E34-8302-DD7DB7929F84" typeRef="string">
+          <dmn:text>Transaction Country</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_C0AC3D74-3345-40E6-9DED-7600E39E6DBF">
+        <dmn:inputExpression id="_C8F4934D-A54A-4739-8D0A-AE7A6C857574" typeRef="boolean">
+          <dmn:text>Relative Location Based Check</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="_6602A22C-49CE-4337-BFC2-2379644077C3" typeRef="string"/>
+      <dmn:rule id="_02370790-B9B1-4630-A793-E44F651F8F48">
+        <dmn:description>Transaction Country is different from Home Country and amount is > than 1000$</dmn:description>
+        <dmn:inputEntry id="_988E2B33-FF5E-4F94-92EF-7A4993FC7CCC">
+          <dmn:text>&gt; 1000</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_5AB9DF87-4039-403F-B5CD-508103302294">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_DD865902-F40A-4D5E-89FB-5B8D691EBC3A">
+          <dmn:text>false</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_D0F08535-E690-4B71-A318-03239DE41DFD">
+          <dmn:text>"Transaction Country is different from Home Country and amount is > than 1000$"</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="_6E63865A-7CF7-4D60-8156-E05555E8BF8F">
+        <dmn:description>Transaction Country is in block list</dmn:description>
+        <dmn:inputEntry id="_2F4154A2-521E-4947-A4DC-8D69F5B89DB2">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_CEAC26C6-D9FA-4603-95A4-05086E735567">
+          <dmn:text>["North Korea","Sudan","Iran","Iraq","Democratic Republic of the Congo"]</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_1E88A766-8375-4EE2-BD7A-48B041F76409">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_DF61DC3E-2671-4803-B7DB-DAB34C0352EF">
+          <dmn:text>"Transaction Country is in block list"</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="_13FE9B27-31EA-49C3-BF9D-E0BF0726BE4C">
+        <dmn:description>Transaction is over the current daily limit</dmn:description>
+        <dmn:inputEntry id="_EF47FBAB-D01B-4492-8036-B988980A0C9A">
+          <dmn:text>&gt; 10000</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_33E9ECA6-3462-4C53-818A-04E0BED56584">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_7285A7FE-457C-4229-885C-8C34F1DB7F26">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_8A3532F1-3808-48EC-A69F-F7667B0524EE">
+          <dmn:text>"Transaction is over the current daily limit"</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:inputData id="_E9503125-EBB9-43B6-9E44-A03E1B0D3FE3" name="Transaction Country">
+    <dmn:variable id="_003BF4F7-05EE-4075-A207-9246DCD10C5E" name="Transaction Country" typeRef="string"/>
+  </dmn:inputData>
+  <dmn:inputData id="_F3B1BEF3-724F-4483-8016-061226E6B23D" name="Transaction Amount">
+    <dmn:variable id="_DF40104A-AA55-41E2-9F62-98718F1DE925" name="Transaction Amount" typeRef="number"/>
+  </dmn:inputData>
+  <dmn:decision id="_C67B5372-D36F-4EE3-8CA3-757334AE3E3D" name="Risk Based Assessment">
+    <dmn:variable id="_A05D82BD-06A2-4276-A261-58040DADE6C4" name="Risk Based Assessment" typeRef="string"/>
+    <dmn:informationRequirement id="_2B0E4C23-683B-4A8E-B46B-637842E887AE">
+      <dmn:requiredInput href="#_51B202ED-F309-4120-8AF4-FB713FF02F34"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_9AEC2DF0-3AE0-4E9F-B32E-C8E76BED7997">
+      <dmn:requiredInput href="#_2E558BC8-438D-4ABF-A804-0ACB54BDF512"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_9430BED0-9349-4D04-9EF4-99B3ECD6914B">
+      <dmn:requiredInput href="#_E9503125-EBB9-43B6-9E44-A03E1B0D3FE3"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="_264D65DE-7CC4-4BE8-944D-B96DFA09281B" hitPolicy="UNIQUE" preferredOrientation="Rule-as-Row">
+      <dmn:input id="_C1298CF4-37F6-4A2B-988B-1D5035D73C03">
+        <dmn:inputExpression id="_21D6B32E-0912-483E-9D55-91FA72D68404" typeRef="string">
+          <dmn:text>Merchant Type</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_29B576B1-61CB-4197-9F8E-39446F33AFDB">
+        <dmn:inputExpression id="_1F2E9138-8E33-472D-B990-45EA8B425A71" typeRef="string">
+          <dmn:text>Transaction Country</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_768E1FC0-7D14-48CE-A440-83C82110FBFC">
+        <dmn:inputExpression id="_067CAE06-4650-4601-82A1-886A171753F6" typeRef="string">
+          <dmn:text>Transaction Type</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="_2D23B640-FFB7-47BA-985A-61C6F452D3CE" typeRef="string"/>
+      <dmn:rule id="_34DDA8E6-8A69-4B0E-8663-75793C878472">
+        <dmn:description>High Risk</dmn:description>
+        <dmn:inputEntry id="_874B911D-81D2-462F-BF4F-516E4831F1D5">
+          <dmn:text>["A0780224080","A7090389","G654679","T765990","H78669900","T567899"]</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_3D04BD93-6002-4D58-AA65-855FC583E9C6">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_2682E2FB-88C7-47D1-9FED-A9750EB5B0A4">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_DAC16817-37C9-4570-B7E1-4A7400FFB7D0">
+          <dmn:text>"High"</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="_C356530A-FF9C-4C4C-ACD2-26168B4C77A0">
+        <dmn:description>Medium Risk</dmn:description>
+        <dmn:inputEntry id="_41609BE5-4B8C-4FE3-800F-24C1D05F6756">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_88387FFE-516F-4073-96E2-57AA1C8CE6D9">
+          <dmn:text>["Zimbwabwe","Burma"]</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_201ECDE3-CFB5-43D6-AB43-A58F08B8ABC4">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_51598E2D-D907-4249-B28C-8DEAFE99E579">
+          <dmn:text>"Medium"</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="_6FE4F9F7-81AB-470E-B4C8-DA30CDB9146F">
+        <dmn:description>Medium Risk</dmn:description>
+        <dmn:inputEntry id="_1997C766-D90C-435F-BFE0-78F74E980A67">
+          <dmn:text>"A797979990"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_FF398F1C-56D0-4E77-8A83-F52D5BA3093F">
+          <dmn:text>"Kenya"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_535829F5-360C-47E1-BFA0-EC562E0C9DA0">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_3E3837AB-43E4-46F7-B135-8B1A5AF6A44A">
+          <dmn:text>"Medium"</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="_E30A5DC1-614D-4810-B477-519B0AC84882">
+        <dmn:description>Medium Risk</dmn:description>
+        <dmn:inputEntry id="_CAFA2191-9271-498A-B5CB-3CAC0C9674CB">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_4B273D06-65F0-40D5-91A2-1A83A31CD2C5">
+          <dmn:text>"China"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_73A3D1A1-52E5-429B-85A5-84A90B18714B">
+          <dmn:text>"Web"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_D4DF411D-E97D-4204-89E8-C9421D32E615">
+          <dmn:text>"Medium"</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="_8C92C5F0-D738-44A4-831B-37C3718CA3FE">
+        <dmn:description>Medium Risk</dmn:description>
+        <dmn:inputEntry id="_62CA4B5B-7F77-47C6-A89B-B005C3F980EC">
+          <dmn:text>["A7698900","K9879799"]</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_396C586C-1154-415E-BC85-DB7206E9051B">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_BE6B830E-E952-48DF-B833-4CC85FE0EE38">
+          <dmn:text>"POS"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_80731718-1A3F-4800-A82B-4B576415F3EE">
+          <dmn:text>"Medium"</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="_005D0D61-C4B5-449A-B918-10D8C1DE141F">
+        <dmn:description>Fall Back</dmn:description>
+        <dmn:inputEntry id="_C7613247-D615-4C35-B750-20D446D64EEF">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_F6101260-F801-4C0C-942D-38EED7B12092">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_3A2B446E-E87F-47B8-9C33-321B53CA924D">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_96223123-4296-4E69-B52F-098BCD623687">
+          <dmn:text>"Low"</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:inputData id="_51B202ED-F309-4120-8AF4-FB713FF02F34" name="Transaction Type">
+    <dmn:variable id="_175DFF91-536E-4953-B23D-472F3332D1EB" name="Transaction Type" typeRef="string"/>
+  </dmn:inputData>
+  <dmn:decision id="_575D1845-2B7A-4930-AB5E-AA098A6B1765" name="Alert Transactions">
+    <dmn:variable id="_29A584C9-095E-4BD7-834F-13C3D9C85C15" name="Alert Transactions" typeRef="string"/>
+    <dmn:informationRequirement id="_B8645051-EE5F-4FF2-9A69-22F1F4DA1F7F">
+      <dmn:requiredDecision href="#_C67B5372-D36F-4EE3-8CA3-757334AE3E3D"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_E5F9379D-241C-4A64-B0AF-0B03862D55F0">
+      <dmn:requiredInput href="#_F3B1BEF3-724F-4483-8016-061226E6B23D"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="_156D72C7-A90B-48F8-8E12-E67B7846FC0E" hitPolicy="UNIQUE" preferredOrientation="Rule-as-Row">
+      <dmn:input id="_550F1D0F-3F5D-4904-AA18-2246F65DE53A">
+        <dmn:inputExpression id="_E8F40A00-1257-48A9-BF2D-03E9759F4379" typeRef="number">
+          <dmn:text>Transaction Amount</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_6BB69AFA-63ED-4E59-80A9-C9A91F96BBF7">
+        <dmn:inputExpression id="_67253CA4-FF57-4553-8C87-306F7A575C5D" typeRef="string">
+          <dmn:text>Risk Based Assessment</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="_FC5D6363-C9B8-4CD5-9E6B-BB1BFAD7C347" typeRef="string"/>
+      <dmn:rule id="_A02FA090-C8FF-4B06-867F-5A5E3C3AE880">
+        <dmn:description>High Risk transaction : Large Amount</dmn:description>
+        <dmn:inputEntry id="_C5537F94-5054-4C7D-B5B2-4BB0E0816063">
+          <dmn:text>&gt; 1000</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_EBE07780-519A-43AD-8C8C-EA9D2FF7BA5F">
+          <dmn:text>"High"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_068B1994-00F1-4E72-978F-69521F627D9C">
+          <dmn:text>"High Risk transaction : Large Amount : Need Investigation"</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="_EEF6D4EA-4E7B-404C-A119-496C84D684C4">
+        <dmn:description>Medium Risk transaction : Large Amount : Need Confirmation</dmn:description>
+        <dmn:inputEntry id="_80300B0F-36C9-484A-8E3F-026FFA237522">
+          <dmn:text>[1000...5000]</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_CA618CBB-B4B9-4D29-AE43-2EF5CE96FD04">
+          <dmn:text>"Medium"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_D1230E33-B37C-494B-828F-592395DD2B71">
+          <dmn:text>"Medium Risk transaction : Large Amount : Need Confirmation"</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="_8676451B-25D2-4023-9632-3255FA8C8C3E">
+        <dmn:description>Low Risk transaction: Large Amount : Alert transaction</dmn:description>
+        <dmn:inputEntry id="_4F41AE88-A0A8-4F4A-8D5D-B199952B85A5">
+          <dmn:text>&gt; 1000</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_483D0838-27A9-4DCE-A89E-49BF833BFC9C">
+          <dmn:text>"Low"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_484A0FB5-A5BF-49F4-9C9D-548F38C89858">
+          <dmn:text>"Low Risk transaction: Large Amount : Alert transaction"</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:inputData id="_3CC8F332-3F33-4589-9DBA-5946D5A551B1" name="Home Country">
+    <dmn:variable id="_D1302BA8-6CD5-41D9-8B58-5CD0D9BFC471" name="Home Country" typeRef="string"/>
+  </dmn:inputData>
+  <dmn:inputData id="_2E558BC8-438D-4ABF-A804-0ACB54BDF512" name="Merchant Type">
+    <dmn:variable id="_ACFFC84B-36DE-4CA3-9676-F6A41778A347" name="Merchant Type" typeRef="string"/>
+  </dmn:inputData>
+  <dmn:decision id="_46703AA6-2D0A-424B-BA08-6C7E999A3A74" name="Relative Location Based Check">
+    <dmn:variable id="_1A1F8701-2AB3-40CB-AB44-01A6A336F2DD" name="Relative Location Based Check" typeRef="boolean"/>
+    <dmn:informationRequirement id="_0677AFD9-980C-40C3-B4FC-D5405E7DC525">
+      <dmn:requiredInput href="#_3CC8F332-3F33-4589-9DBA-5946D5A551B1"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_D3AFCC54-6EC1-42DA-B8FC-B81E0D1E7C6D">
+      <dmn:requiredInput href="#_E9503125-EBB9-43B6-9E44-A03E1B0D3FE3"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_A6CD79A3-B514-458F-8D47-F1BEF216A067">
+      <dmn:text>Home Country == Transaction Country </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:textAnnotation id="_F24CD2FB-C983-4500-8C73-0B4B210441A2" textFormat="text/plain">
+    <dmn:text>Blocked Transactions: Higher Probability of Fraud (Stop Transaction/Order Investigation</dmn:text>
+  </dmn:textAnnotation>
+  <dmn:textAnnotation id="_31BCF7D9-773E-4E96-AB6D-99953EBDBC4D" textFormat="text/plain">
+    <dmn:text>High Risk Transactions: Possible Fraud: Need User Confirmation</dmn:text>
+  </dmn:textAnnotation>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <di:extension>
+        <kie:ComponentsWidthsExtension>
+          <kie:ComponentWidths dmnElementRef="_291689AE-7917-4535-A1E3-23DC91216A5B">
+            <kie:width>50.0</kie:width>
+            <kie:width>283.0</kie:width>
+            <kie:width>587.0</kie:width>
+            <kie:width>273.0</kie:width>
+            <kie:width>392.0</kie:width>
+            <kie:width>215.0</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_264D65DE-7CC4-4BE8-944D-B96DFA09281B">
+            <kie:width>50.0</kie:width>
+            <kie:width>220.0</kie:width>
+            <kie:width>277.0</kie:width>
+            <kie:width>205.0</kie:width>
+            <kie:width>267.0</kie:width>
+            <kie:width>100.0</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_156D72C7-A90B-48F8-8E12-E67B7846FC0E">
+            <kie:width>50.0</kie:width>
+            <kie:width>218.0</kie:width>
+            <kie:width>262.0</kie:width>
+            <kie:width>397.0</kie:width>
+            <kie:width>389.0</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_A6CD79A3-B514-458F-8D47-F1BEF216A067">
+            <kie:width>437.0</kie:width>
+          </kie:ComponentWidths>
+        </kie:ComponentsWidthsExtension>
+      </di:extension>
+      <dmndi:DMNShape id="dmnshape-_E5B9A995-8B24-4EA4-9562-1D1EAB7E2819" dmnElementRef="_E5B9A995-8B24-4EA4-9562-1D1EAB7E2819" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="254" green="29" blue="4"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="518.4166666666667" y="103.33333333333326" width="201.16666666666669" height="88.66666666666669"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-_E9503125-EBB9-43B6-9E44-A03E1B0D3FE3" dmnElementRef="_E9503125-EBB9-43B6-9E44-A03E1B0D3FE3" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="198" green="227" blue="231"/>
+          <dmndi:StrokeColor red="0" green="9" blue="10"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="276.5981308411215" y="301.3421052631579" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-_F3B1BEF3-724F-4483-8016-061226E6B23D" dmnElementRef="_F3B1BEF3-724F-4483-8016-061226E6B23D" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="190" green="223" blue="228"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="599.2990654205607" y="309.3421052631579" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-_C67B5372-D36F-4EE3-8CA3-757334AE3E3D" dmnElementRef="_C67B5372-D36F-4EE3-8CA3-757334AE3E3D" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="15" green="156" blue="217"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="705" y="461" width="147.33333333333337" height="64.5"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-_31BCF7D9-773E-4E96-AB6D-99953EBDBC4D" dmnElementRef="_31BCF7D9-773E-4E96-AB6D-99953EBDBC4D" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="979" y="99" width="155" height="91"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-_51B202ED-F309-4120-8AF4-FB713FF02F34" dmnElementRef="_51B202ED-F309-4120-8AF4-FB713FF02F34" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="206" green="237" blue="237"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="885" y="295.3421052631579" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-_F24CD2FB-C983-4500-8C73-0B4B210441A2" dmnElementRef="_F24CD2FB-C983-4500-8C73-0B4B210441A2" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="506" y="2" width="239" height="93"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-_575D1845-2B7A-4930-AB5E-AA098A6B1765" dmnElementRef="_575D1845-2B7A-4930-AB5E-AA098A6B1765" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="233" green="241" blue="9"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="782.25" y="99.33333333333331" width="183.5" height="96.66666666666669"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-_3CC8F332-3F33-4589-9DBA-5946D5A551B1" dmnElementRef="_3CC8F332-3F33-4589-9DBA-5946D5A551B1" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="192" green="228" blue="234"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="124.5981308411215" y="303.3421052631579" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-_2E558BC8-438D-4ABF-A804-0ACB54BDF512" dmnElementRef="_2E558BC8-438D-4ABF-A804-0ACB54BDF512" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="187" green="223" blue="228"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="1052" y="301.3421052631579" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-_46703AA6-2D0A-424B-BA08-6C7E999A3A74" dmnElementRef="_46703AA6-2D0A-424B-BA08-6C7E999A3A74" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="13" green="154" blue="230"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="225" y="116" width="128" height="64"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="dmnedge-_7F6DF6F0-AE9D-4F13-A839-4652F27A1975" dmnElementRef="_7F6DF6F0-AE9D-4F13-A839-4652F27A1975">
+        <di:waypoint x="326.5981308411215" y="301.3421052631579"/>
+        <di:waypoint x="619" y="191.99999999999994"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-_7FD93C6B-F5AD-45D7-9513-44ADC76A8D0F" dmnElementRef="_7FD93C6B-F5AD-45D7-9513-44ADC76A8D0F">
+        <di:waypoint x="649.2990654205607" y="309.3421052631579"/>
+        <di:waypoint x="619" y="191.99999999999994"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-_ECF40521-F487-4885-B5AD-64C29BCE661B" dmnElementRef="_ECF40521-F487-4885-B5AD-64C29BCE661B">
+        <di:waypoint x="353" y="148"/>
+        <di:waypoint x="518.4166666666667" y="147.6666666666666"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-_2B0E4C23-683B-4A8E-B46B-637842E887AE" dmnElementRef="_2B0E4C23-683B-4A8E-B46B-637842E887AE">
+        <di:waypoint x="935" y="295.3421052631579"/>
+        <di:waypoint x="778.6666666666667" y="525.5"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-_9AEC2DF0-3AE0-4E9F-B32E-C8E76BED7997" dmnElementRef="_9AEC2DF0-3AE0-4E9F-B32E-C8E76BED7997">
+        <di:waypoint x="1102" y="301.3421052631579"/>
+        <di:waypoint x="778.6666666666667" y="525.5"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-_9430BED0-9349-4D04-9EF4-99B3ECD6914B" dmnElementRef="_9430BED0-9349-4D04-9EF4-99B3ECD6914B">
+        <di:waypoint x="326.5981308411215" y="301.3421052631579"/>
+        <di:waypoint x="778.6666666666667" y="525.5"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-_B8645051-EE5F-4FF2-9A69-22F1F4DA1F7F" dmnElementRef="_B8645051-EE5F-4FF2-9A69-22F1F4DA1F7F">
+        <di:waypoint x="852.3333333333334" y="493.25"/>
+        <di:waypoint x="782.25" y="147.66666666666666"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-_E5F9379D-241C-4A64-B0AF-0B03862D55F0" dmnElementRef="_E5F9379D-241C-4A64-B0AF-0B03862D55F0">
+        <di:waypoint x="649.2990654205607" y="359.3421052631579"/>
+        <di:waypoint x="874" y="99.33333333333331"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-_0677AFD9-980C-40C3-B4FC-D5405E7DC525" dmnElementRef="_0677AFD9-980C-40C3-B4FC-D5405E7DC525">
+        <di:waypoint x="174.5981308411215" y="303.3421052631579"/>
+        <di:waypoint x="289" y="180"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-_D3AFCC54-6EC1-42DA-B8FC-B81E0D1E7C6D" dmnElementRef="_D3AFCC54-6EC1-42DA-B8FC-B81E0D1E7C6D">
+        <di:waypoint x="326.5981308411215" y="301.3421052631579"/>
+        <di:waypoint x="289" y="180"/>
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</dmn:definitions>
